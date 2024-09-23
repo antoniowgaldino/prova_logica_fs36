@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FS36Flix [ Bem-vindo ]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-dark text-white">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="border border-white rounded p-4 text-center" style="width: 300px;">
+            <a href="index.html" class="navbar-brand"><img src="img/fs36flix_logo.png" alt="Logo" class="img-fluid mb-3" style="max-width: 150px;"></a>
+            <div class="form-group">
+                <input type="text" class="form-control mb-2" id="login" placeholder="Login">
+                <div class="input-group">
+                    <input type="password" class="form-control" id="senha" placeholder="Senha">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="toggleSenha">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+                <small class="form-text text-white">Lembrar da senha</small>
+            </div>
+            <button class="btn btn-danger btn-block mb-2" id="btnAcessar">Acessar</button>
+            <button class="btn btn-danger btn-block" id="btnCriarConta">Criar conta</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/login.js"></script>
+</body>
+</html>

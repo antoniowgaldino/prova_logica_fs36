@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>FS36Flix [ A maior plataforma de filmes da FS36 ]</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/carrossel.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body class="bg-dark text-white">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black"
+        style="padding-left: 120px; padding-right: 120px; padding-top: 20px; padding-bottom: 15px;">
+        <a class="navbar-brand" id="logo-flix" href="#"><img src="img/fs36flix_logo.png" alt="Logo" style="max-height: 40px;"></a>
+        <div class="collapse navbar-collapse">
+            <form class="mx-auto">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar filme...">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+            <span class="navbar-text mx-3" id="usuario">Usuário</span>
+            <button class="btn btn-danger">Cadastrar Filme</button>
+        </div>
+    </nav>
+
+    <!-- Carousel -->
+    <div class="slideshow-container" id="slideshow-container"></div>
+    <br>
+    <div style="text-align:center" id="dots-container"></div>
+
+    <!-- Box -->
+    <div class="home_box">
+        <div class="home_text">
+            <h4>A maior plataforma de filmes</h4>
+            <h1>DA FULL STACK 36</h1>
+        </div>
+        <div>
+            <button type="button" class="btn btn-outline-light">Saiba mais</button>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="container navbar navbar-expand-lg navbar-dark bg-black" style="padding-top: 20px;">
+        <div class="mr-3">Filtre por gênero:</div>
+        <button class="btn btn-danger mr-2" onclick="fetchMovies()">Todos</button>
+        <button class="btn btn-danger mr-2" onclick="fetchMoviesByGenre(28)">Ação</button>
+        <button class="btn btn-danger mr-2" onclick="fetchMoviesByGenre(35)">Comédia</button>
+        <button class="btn btn-danger mr-2" onclick="fetchMoviesByGenre(18)">Drama</button>
+        <button class="btn btn-danger mr-2" onclick="fetchMoviesByGenre(10749)">Romance</button>
+        <button class="btn btn-danger mr-2" onclick="fetchMoviesByGenre(16)">Animação</button>
+        <button class="btn btn-danger" onclick="fetchMoviesByGenre(27)">Terror</button>
+    </div>
+
+    <!-- Galeria de filmes -->
+    <div class="container my-4">
+        <div class="row" id="movie-gallery" style="padding-left: 10px; padding-right: 10px;"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white text-dark" style="height: 150px; padding: 20px 0;">
+        <div class="container d-flex justify-content-between align-items-start h-100">
+            <div class="d-flex align-items-center">
+                <a href="#" class="btn btn-danger mx-1"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="btn btn-danger mx-1"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="btn btn-danger mx-1"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+            <div class="container text-center">&copy; 2024 FS36Flix</div>
+            <a class="navbar-brand" id="logo-flix-footer" href="#"><img src="img/fs36flix_logo.png" alt="Logo" style="max-height: 40px;"></a>
+        </div>
+    </footer>
+
+    <!-- scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/carrossel.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
