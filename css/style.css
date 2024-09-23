@@ -93,6 +93,19 @@ body {
   color: white;
 }
 
+.personagem-nome {
+  margin-top: 3px;
+  margin-bottom: 10px;
+  font-size: 10px;
+  color: white;
+}
+
+.botao-ator {
+  --bs-btn-padding-y: .25rem;
+  --bs-btn-padding-x: .5rem;
+  --bs-btn-font-size: .75rem;
+}
+
 .sem-imagem {
   background-color: #343a40;
   color: #ffffff;
@@ -101,4 +114,15 @@ body {
   justify-content: center;
   font-size: 11px;
   font-weight: bold;
+}
+
+.no-poster {
+  background-color: #555;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1rem;
+  border-radius: 5px;
 }

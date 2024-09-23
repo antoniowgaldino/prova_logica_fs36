@@ -30,7 +30,7 @@ async function buscarDetalhesFilme(id) {
         assistirBtn.classList.add('disabled');
     }
 
-    // Atualiza a lista de atores principais (máximo de 3)
+    // atores principais
     const atoresContainer = document.getElementById('atores');
     atoresContainer.innerHTML = '';
     const atoresPrincipais = credits.cast.slice(0, 6);
@@ -38,8 +38,8 @@ async function buscarDetalhesFilme(id) {
     atoresPrincipais.forEach(ator => {
         const atorDiv = document.createElement('div');
         atorDiv.classList.add('ator');
-
-        // Cria caixa "Sem imagem"
+    
+        // Caixa "Sem imagem"
         if (ator.profile_path) {
             const atorImg = document.createElement('img');
             atorImg.src = `https://image.tmdb.org/t/p/w500${ator.profile_path}`;
@@ -52,23 +52,45 @@ async function buscarDetalhesFilme(id) {
             semImagemDiv.innerText = 'Sem imagem';
             atorDiv.appendChild(semImagemDiv);
         }
-
+    
+        // Adiciona o nome do ator
         const atorNome = document.createElement('div');
         atorNome.classList.add('ator-nome');
         atorNome.innerText = ator.name;
-
-        atorDiv.appendChild(atorNome);
+        atorDiv.appendChild(atorNome); // Adicionado aqui
+    
+        // Adiciona o nome do personagem
+        const personagemNome = document.createElement('div');
+        personagemNome.classList.add('personagem-nome');
+        personagemNome.innerText = `${ator.character}`;
+        atorDiv.appendChild(personagemNome);
+    
+        // Link do modal
+        const modalLink = document.createElement('button');
+        modalLink.classList.add('btn', 'btn-outline-danger', 'botao-ator');
+        modalLink.setAttribute('data-toggle', 'modal');
+        modalLink.setAttribute('data-target', `#modal-${ator.id}`);
+        modalLink.innerText = "+ filmes";
+        atorDiv.appendChild(modalLink);
+    
+        // modal
+        modalLink.addEventListener('click', () => {
+            createModalForActor(ator);
+        });
+    
         atoresContainer.appendChild(atorDiv);
     });
+    
+    
 
-    // Atualiza o título da página
+    // título da página
     document.getElementById('titulo-pagina').innerText = `FS36Flix [ ${filme.title} ]`;
 
-    // Atualiza a logomarca e nome do estúdio
+    // logomarca e nome do estúdio
     const estúdio = filme.production_companies[0];
 
     if (estúdio) {
-        // Atualiza a logomarca do estúdio
+        // logomarca do estúdio
         const logoEstudio = document.getElementById('logo-estudio');
         if (estúdio.logo_path) {
             logoEstudio.src = `https://image.tmdb.org/t/p/w500${estúdio.logo_path}`;
@@ -77,21 +99,21 @@ async function buscarDetalhesFilme(id) {
             logoEstudio.style.display = 'none';
         }
 
-        // Atualiza o nome do estúdio
         document.getElementById('nome-estudio').innerText = `Produtora: ${estúdio.name}`;
     } else {
-        // Se não houver estúdio, esconde a logomarca e o nome
         document.getElementById('logo-estudio').style.display = 'none';
         document.getElementById('nome-estudio').innerText = '';
     }
 
-    // Após atualizar os detalhes do filme, busca filmes do mesmo gênero
     if (generoId) {
         await fetchMoviesByGenre(generoId);
     }
+
+    modalLink.addEventListener('click', () => {
+        createModalForActor(ator);
+    });
 }
 
-// Leitura do ID do filme
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
 
@@ -152,4 +174,13 @@ function displayMovies(movies) {
         `;
         gallery.appendChild(col);
     });
+}
+
+// pesquisa
+function searchMovies() {
+    const query = document.getElementById('search-input').value;
+    if (query) {
+        window.location.href = `pesquisa.html?query=${encodeURIComponent(query)}`;
+    }
+    return false;
 }
