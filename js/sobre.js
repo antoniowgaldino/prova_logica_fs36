@@ -128,10 +128,10 @@ if (usuario) {
 
     // Adiciona o usuário ao link da logo
     const logoFlix = document.getElementById('logo-flix');
-    logoFlix.href = `home.html?usuario=${encodeURIComponent(usuario)}`;
+    logoFlix.href = `home.html`;
     
     const logoFlixFooter = document.getElementById('logo-flix-footer');
-    logoFlixFooter.href = `home.html?usuario=${encodeURIComponent(usuario)}`;
+    logoFlixFooter.href = `home.html`;
 }
 
 async function fetchMoviesByGenre(genreId) {

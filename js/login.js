@@ -1,32 +1,34 @@
-// importando os usuarios
-import { usuarios } from './usuarios.js';
+// usuarios
+const usuarios = [
+    { id: 4505, nome: 'Alberto', login: 'alberto@dg.com.br', senha: '12345' },
+    { id: 4506, nome: 'Rafael', login: 'rafael@dg.com.br', senha: '12345' },
+    { id: 4507, nome: 'Turma', login: 'turma@dg.com.br', senha: '12345' }
+];
 
-// acessar a página home.html
+// página home.html
 document.getElementById('btnAcessar').addEventListener('click', () => {
     const login = document.getElementById('login').value;
     const senha = document.getElementById('senha').value;
 
+    // login e senha
     const usuarioValido = usuarios.find(usuario => usuario.login === login && usuario.senha === senha);
 
     if (usuarioValido) {
-        // guardando o nome do usuário
-        localStorage.setItem('usuario', login);
-
-        // página home.html com o login
-        window.location.href = `home.html?user=${encodeURIComponent(login)}`;
+        localStorage.setItem('usuario', usuarioValido.nome);
+        window.location.href = 'home.html';
     } else {
         alert('Login ou senha inválidos!');
     }
 });
 
-// visualizar senha
+// Visualizar senha
 document.getElementById('toggleSenha').addEventListener('click', () => {
     const senhaInput = document.getElementById('senha');
     const tipo = senhaInput.type === 'password' ? 'text' : 'password';
     senhaInput.type = tipo;
 });
 
-// novo usuário
+// Novo usuário
 document.getElementById('btnCriarConta').addEventListener('click', () => {
     window.location.href = 'novousuario.html';
 });

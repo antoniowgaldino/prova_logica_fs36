@@ -234,6 +234,8 @@ window.onload = buscarFilmesBanner;
 const usuario = localStorage.getItem('usuario');
 if (usuario) {
     document.getElementById('usuario').innerText = `Bem-vindo, ${usuario}`;
+} else {
+    window.location.href = 'login.html';
 }
 
 // pesquisa
