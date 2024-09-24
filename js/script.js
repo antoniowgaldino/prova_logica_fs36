@@ -1,4 +1,5 @@
 const apiKey = 'b3904bfb3f89cb18c2456466a94bdcd5';
+
 let currentPage = 1;
 let totalPages = 1;
 

@@ -80,23 +80,53 @@
     <!-- Footer -->
     <footer class="bg-white text-dark" style="height: 150px; padding: 20px 0;">
         <div class="container d-flex justify-content-between align-items-start h-100">
-            <div class="d-flex align-items-center">
-                <a href="#" class="btn btn-danger mx-1"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="btn btn-danger mx-1"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" class="btn btn-danger mx-1"><i class="fa-brands fa-tiktok"></i></a>
+            <div class="d-flex">
+                <a href="https://instagram.com" target="_blank" class="btn btn-danger mx-1">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://facebook.com" target="_blank" class="btn btn-danger mx-1">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://tiktok.com" target="_blank" class="btn btn-danger mx-1">
+                    <i class="fab fa-tiktok"></i>
+                </a>
             </div>
+
+            <!-- Texto com os criadores -->
             <div class="container text-center">
                 &copy; 2024 FS36Flix
                 <br>
-                criado por 
-                <a href="https://github.com/rafaeoTW4" target="_blank" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#dc3545'" onmouseout="this.style.color='inherit'">Rafael Marçal</a> e 
-                <a href="https://github.com/antoniowgaldino" target="_blank" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#dc3545'" onmouseout="this.style.color='inherit'">Alberto Wowtilla</a>
+                criado por
+                <span id="criadores"></span>
             </div>
+
             <a class="navbar-brand" id="logo-flix-footer" href="#">
                 <img src="img/fs36flix_logo.png" alt="Logo" style="max-height: 40px;">
             </a>
         </div>
     </footer>
+
+    <!-- modal criadores -->
+    <div class="modal fade" id="alunoModal" tabindex="-1" aria-labelledby="alunoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alunoModalLabel">Detalhes do Aluno</h5>
+                </div>
+                <div class="modal-body d-flex">
+                    <div class="col-4 text-center">
+                        <img id="alunoImagem" src="" class="rounded-circle" style="width: 120px; height: 120px;"
+                            alt="Avatar">
+                    </div>
+                    <div class="col-8">
+                        <h2 id="alunoNome" class="mb-1"></h2>
+                        <h6 id="alunoPerfil" class="mb-3"></h6>
+                        <a id="alunoGithub" href="" class="btn btn-danger" target="_blank">Visitar perfil GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -110,15 +140,15 @@
             const response = await fetch(`https://api.themoviedb.org/3/person/${actorId}/movie_credits?api_key=${apiKey}&language=pt-BR`);
             const data = await response.json();
             const movies = data.cast.slice(0, 12); // últimos 12 filmes
-    
+
             return movies;
         }
-    
+
         // cria o modal
         async function createModalForActor(actor) {
             const movies = await fetchMoviesByActor(actor.id);
             const modalContainer = document.getElementById('modals-container');
-    
+
             const modal = document.createElement('div');
             modal.classList.add('modal', 'fade');
             modal.id = `modal-${actor.id}`;
@@ -151,10 +181,52 @@
             $(modal).modal();
         }
     </script>
-    
 
+    <!-- script alunos -->
+    <script type="module">
+        import { alunos } from './js/alunos.js';
+        const criadoresDiv = document.getElementById('criadores');
 
+        function abrirModal(aluno) {
+            const modalNome = document.getElementById('alunoNome');
+            const modalImagem = document.getElementById('alunoImagem');
+            const modalPerfil = document.getElementById('alunoPerfil');
+            const modalGithub = document.getElementById('alunoGithub');
 
+            modalNome.textContent = aluno.nome;
+            modalImagem.src = `https://avatars.githubusercontent.com/u/${aluno.imagem}?v=4`;
+            modalPerfil.textContent = `${aluno.perfil}`;
+            modalGithub.href = `https://github.com/${aluno.perfil}`;
+
+            const modal = new bootstrap.Modal(document.getElementById('alunoModal'));
+            modal.show();
+        }
+
+        alunos.forEach(aluno => {
+            const linkCriador = document.createElement('a');
+            linkCriador.href = "#";
+            linkCriador.textContent = aluno.nome;
+            linkCriador.style.color = 'inherit';
+            linkCriador.style.textDecoration = 'none';
+            linkCriador.onmouseover = function () {
+                this.style.color = '#dc3545';
+            };
+            linkCriador.onmouseout = function () {
+                this.style.color = 'inherit';
+            };
+
+            linkCriador.addEventListener('click', function (event) {
+                event.preventDefault();
+                abrirModal(aluno);
+            });
+
+            criadoresDiv.appendChild(linkCriador);
+
+            if (aluno !== alunos[alunos.length - 1]) {
+                criadoresDiv.appendChild(document.createTextNode(' e '));
+            }
+        });
+    </script>
 </body>
 
 </html>
