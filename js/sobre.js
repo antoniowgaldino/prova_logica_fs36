@@ -14,20 +14,8 @@ async function buscarDetalhesFilme(id) {
     document.getElementById('sinopse').innerText = filme.overview;
     document.getElementById('genero').innerText = filme.genres.map(g => g.name).join(', ');
     document.getElementById('nota').innerText = filme.vote_average;
-
-    // backdrop
-    if (filme.backdrop_path) {
-        document.getElementById('background').style.backgroundImage = `url(https://image.tmdb.org/t/p/w500${filme.backdrop_path})`;
-    } else {
-        document.getElementById('background').style.backgroundColor = '#333';
-    }
-
-    // capa do filme
-    if (filme.poster_path) {
-        document.getElementById('capa-filme').src = `https://image.tmdb.org/t/p/w500${filme.poster_path}`;
-    } else {
-        document.getElementById('capa-filme').style.display = 'none';
-    }
+    document.getElementById('capa-filme').src = `https://image.tmdb.org/t/p/w500${filme.poster_path}`;
+    document.getElementById('background').style.backgroundImage = `url(https://image.tmdb.org/t/p/w500${filme.backdrop_path})`;
 
     // botão "Assistir"
     const assistirBtn = document.getElementById('assistir-btn');
@@ -144,10 +132,15 @@ if (usuario) {
 async function fetchMoviesByGenre(genreId) {
     const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=pt-BR&with_genres=${genreId}`);
     const data = await response.json();
+    
+    
+    // Embaralha os filmes
 
+    // Embaralha os filmes
     const shuffledMovies = shuffleArray(data.results);
     displayMovies(shuffledMovies.slice(0, 10));
 }
+
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
