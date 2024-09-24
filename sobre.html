@@ -51,7 +51,7 @@
                 <p><strong>Atores Principais:</strong></p>
                 <div id="atores" class="d-flex justify-content-start"></div>
             </div>
-            <div class="col-md-4 text-center">
+            <div class="col-md-4 text-center" id="bloco-capa">
                 <img id="capa-filme" src="" alt="Capa do Filme" class="img-fluid mb-3" style="height: 400px;">
                 <a href="#" id="assistir-btn" class="btn btn-danger disabled">Assistir Filme</a>
                 <p>
@@ -165,13 +165,25 @@
                         </div>
                         <div class="modal-body text-center">
                             <div class="row">
-                                ${movies.map(movie => `
-                                    <div class="col-3 mb-3"> 
-                                        <a href="sobre.html?id=${movie.id}&genre=${movie.genre_ids[0]}">
-                                            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" class="img-fluid" style="max-height: 200px; border-radius: 5px;">
-                                        </a>
-                                    </div>
-                                `).join('')}
+                                ${movies.map(movie => {
+                if (movie.poster_path) {
+                    return `
+                        <div class="col-3 mb-3"> 
+                            <a href="sobre.html?id=${movie.id}&genre=${movie.genre_ids[0]}">
+                                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" class="img-fluid" style="max-height: 200px; border-radius: 5px;">
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    return `
+                    <div class="col-3 mb-3">
+                        <a href="sobre.html?id=${movie.id}&genre=${movie.genre_ids[0]}">
+                            <span class="capa-modal" style="color: white; font-size: 14px;">sem capa<br />${movie.title}</span>
+                        </a>
+                    </div>
+                    `;
+                }
+            }).join('')}
                             </div>
                         </div>
                     </div>

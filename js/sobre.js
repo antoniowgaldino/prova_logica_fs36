@@ -1,6 +1,5 @@
 const apiKey = 'b3904bfb3f89cb18c2456466a94bdcd5';
 
-// Função para buscar os detalhes do filme
 async function buscarDetalhesFilme(id) {
     // Busca os detalhes do filme
     const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=pt-BR`);
@@ -11,16 +10,26 @@ async function buscarDetalhesFilme(id) {
     const responseCredits = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}&language=pt-BR`);
     const credits = await responseCredits.json();
 
-    // Atualiza o título, sinopse, gêneros, e nota
     document.getElementById('filme-nome').innerText = filme.title;
     document.getElementById('sinopse').innerText = filme.overview;
     document.getElementById('genero').innerText = filme.genres.map(g => g.name).join(', ');
     document.getElementById('nota').innerText = filme.vote_average;
-    document.getElementById('capa-filme').src = `https://image.tmdb.org/t/p/w500${filme.poster_path}`;
-    document.getElementById('background').style.backgroundImage = `url(https://image.tmdb.org/t/p/w500${filme.backdrop_path})`;
-    // document.getElementById('background').style.backgroundImage = `url(img/banner_01_deadpool_wolverine.jpg)`;
 
-    // Atualiza o botão "Assistir"
+    // backdrop
+    if (filme.backdrop_path) {
+        document.getElementById('background').style.backgroundImage = `url(https://image.tmdb.org/t/p/w500${filme.backdrop_path})`;
+    } else {
+        document.getElementById('background').style.backgroundColor = '#333';
+    }
+
+    // capa do filme
+    if (filme.poster_path) {
+        document.getElementById('capa-filme').src = `https://image.tmdb.org/t/p/w500${filme.poster_path}`;
+    } else {
+        document.getElementById('capa-filme').style.display = 'none';
+    }
+
+    // botão "Assistir"
     const assistirBtn = document.getElementById('assistir-btn');
     if (filme.homepage) {
         assistirBtn.href = filme.homepage;
@@ -38,7 +47,7 @@ async function buscarDetalhesFilme(id) {
     atoresPrincipais.forEach(ator => {
         const atorDiv = document.createElement('div');
         atorDiv.classList.add('ator');
-    
+
         // Caixa "Sem imagem"
         if (ator.profile_path) {
             const atorImg = document.createElement('img');
@@ -52,19 +61,19 @@ async function buscarDetalhesFilme(id) {
             semImagemDiv.innerText = 'Sem imagem';
             atorDiv.appendChild(semImagemDiv);
         }
-    
-        // Adiciona o nome do ator
+
+        // nome do ator
         const atorNome = document.createElement('div');
         atorNome.classList.add('ator-nome');
         atorNome.innerText = ator.name;
-        atorDiv.appendChild(atorNome); // Adicionado aqui
-    
-        // Adiciona o nome do personagem
+        atorDiv.appendChild(atorNome);
+
+        // nome do personagem
         const personagemNome = document.createElement('div');
         personagemNome.classList.add('personagem-nome');
         personagemNome.innerText = `${ator.character}`;
         atorDiv.appendChild(personagemNome);
-    
+
         // Link do modal
         const modalLink = document.createElement('button');
         modalLink.classList.add('btn', 'btn-outline-danger', 'botao-ator');
@@ -72,16 +81,14 @@ async function buscarDetalhesFilme(id) {
         modalLink.setAttribute('data-target', `#modal-${ator.id}`);
         modalLink.innerText = "+ filmes";
         atorDiv.appendChild(modalLink);
-    
+
         // modal
         modalLink.addEventListener('click', () => {
             createModalForActor(ator);
         });
-    
+
         atoresContainer.appendChild(atorDiv);
     });
-    
-    
 
     // título da página
     document.getElementById('titulo-pagina').innerText = `FS36Flix [ ${filme.title} ]`;
@@ -126,10 +133,10 @@ const usuario = localStorage.getItem('usuario');
 if (usuario) {
     document.getElementById('usuario').innerText = `Bem-vindo, ${usuario}`;
 
-    // Adiciona o usuário ao link da logo
+    // usuário ao link da logo
     const logoFlix = document.getElementById('logo-flix');
     logoFlix.href = `home.html`;
-    
+
     const logoFlixFooter = document.getElementById('logo-flix-footer');
     logoFlixFooter.href = `home.html`;
 }
@@ -137,30 +144,26 @@ if (usuario) {
 async function fetchMoviesByGenre(genreId) {
     const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=pt-BR&with_genres=${genreId}`);
     const data = await response.json();
-    
-    // Embaralha os filmes
+
     const shuffledMovies = shuffleArray(data.results);
-    
-    // Exibe apenas os primeiros 10 filmes embaralhados (ou quantos você preferir)
     displayMovies(shuffledMovies.slice(0, 10));
 }
 
-// Função para embaralhar o array
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]; // Troca os elementos
+        [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
 }
 
 function displayMovies(movies) {
     const gallery = document.getElementById('movie-gallery');
-    gallery.innerHTML = ''; // Limpa a galeria atual
+    gallery.innerHTML = '';
 
     movies.forEach(movie => {
         const col = document.createElement('div');
-        col.className = 'col-md-2 mb-4'; // 5 colunas em uma linha
+        col.className = 'col-md-2 mb-4';
 
         const truncatedTitle = movie.title.length > 24 ? movie.title.substring(0, 24) + '...' : movie.title;
 

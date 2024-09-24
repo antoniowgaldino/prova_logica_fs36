@@ -80,7 +80,8 @@ body {
   text-align: center;
 }
 
-.ator-img, .sem-imagem {
+.ator-img,
+.sem-imagem {
   width: 90px;
   height: 90px;
   border-radius: 10%;
@@ -125,4 +126,18 @@ body {
   text-align: center;
   font-size: 1rem;
   border-radius: 5px;
+}
+
+.capa-modal {
+  width: 95px;
+  height: 140px;
+  background-color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+#capa-filme {
+  display: block; 
 }
