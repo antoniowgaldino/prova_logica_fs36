@@ -1,12 +1,56 @@
 const apiKey = 'b3904bfb3f89cb18c2456466a94bdcd5';
+const apiKeyYouTube = 'AIzaSyAyRmpBHHBoYG_MOH1zjDAHzF7qtpOqilU';
+
+// trailer no YouTube
+async function buscarTrailerFilme(filmeNome) {
+    const query = encodeURIComponent(`${filmeNome} trailer oficial`);
+    const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&key=${apiKeyYouTube}&maxResults=1`);
+    const data = await response.json();
+    return data.items.length > 0 ? data.items[0] : null;
+}
+
+// trailer no modal
+async function exibirTrailer(filmeNome) {
+    const trailer = await buscarTrailerFilme(filmeNome);
+    const trailerBtn = document.getElementById('trailer-btn');
+
+    if (trailer) {
+        const videoId = trailer.id.videoId;
+        const youtubeUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0&fs=0`;
+
+        // Título
+        document.getElementById('trailerModalLabel').innerText = `Trailer - ${filmeNome}`;
+        document.getElementById('trailer-video').src = youtubeUrl;
+
+        // mais trailers
+        document.getElementById('ver-mais-trailers').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(filmeNome)}+trailer`;
+
+        // Habilita o botão
+        trailerBtn.classList.remove('disabled');
+        trailerBtn.removeAttribute('disabled');
+    } else {
+        document.getElementById('trailerModalLabel').innerText = `Trailer não encontrado para ${filmeNome}`;
+        document.getElementById('trailer-video').src = '';
+
+        // Desabilita o botão
+        trailerBtn.classList.add('disabled');
+        trailerBtn.setAttribute('disabled', true);
+    }
+}
 
 async function buscarDetalhesFilme(id) {
-    // Busca os detalhes do filme
+    // detalhes do filme
     const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=pt-BR`);
     const filme = await response.json();
     const generoId = filme.genres[0]?.id;
 
-    // Busca os créditos do filme
+    document.getElementById('filme-nome').innerText = filme.title;
+
+    // botão assistir trailer
+    const trailerBtn = document.getElementById('trailer-btn');
+    trailerBtn.onclick = () => exibirTrailer(filme.title);
+
+    // créditos do filme
     const responseCredits = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}&language=pt-BR`);
     const credits = await responseCredits.json();
 
@@ -132,15 +176,11 @@ if (usuario) {
 async function fetchMoviesByGenre(genreId) {
     const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=pt-BR&with_genres=${genreId}`);
     const data = await response.json();
-    
-    
-    // Embaralha os filmes
 
     // Embaralha os filmes
     const shuffledMovies = shuffleArray(data.results);
     displayMovies(shuffledMovies.slice(0, 10));
 }
-
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -180,3 +220,20 @@ function searchMovies() {
     }
     return false;
 }
+
+// navbar
+let lastScrollTop = 0;
+window.addEventListener("scroll", function () {
+    const navbar = document.querySelector('.navbar');
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Se rolar para cima, adiciona a classe 'sticky-top'
+    if (scrollTop < lastScrollTop) {
+        navbar.classList.add("sticky-top");
+    } else {
+        // Se rolar para baixo, remove a classe 'sticky-top'
+        navbar.classList.remove("sticky-top");
+    }
+
+    lastScrollTop = scrollTop;
+});

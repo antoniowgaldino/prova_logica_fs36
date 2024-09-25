@@ -58,6 +58,14 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.title {
+    color: #fff;
+    margin: 0;
+    /* max-width: 900px; */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 .numbertext {
     color: #f2f2f2;
     font-size: 12px;

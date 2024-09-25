@@ -131,58 +131,69 @@ function renderSlides() {
         slideDiv.style.width = '100%';
         slideDiv.style.height = '450px';
         slideDiv.style.position = 'relative';
-
+    
         const numberText = document.createElement('div');
         numberText.classList.add('numbertext');
         numberText.textContent = `${index + 1} / ${slidesData.length}`;
-
+    
+        // Div para o fundo preto com gradiente
+        const gradientOverlay = document.createElement('div');
+        gradientOverlay.style.position = 'absolute';
+        gradientOverlay.style.top = '0';
+        gradientOverlay.style.left = '0';
+        gradientOverlay.style.width = '100%';
+        gradientOverlay.style.height = '450px';
+        gradientOverlay.style.background = 'linear-gradient(to top, rgba(0, 0, 0, 1), rgba(255, 255, 255, 0))';
+    
         // título e botão
         const contentContainer = document.createElement('div');
         contentContainer.style.display = 'flex';
-        contentContainer.style.justifyContent = 'space-between';
-        contentContainer.style.alignItems = 'center';
+        contentContainer.style.flexDirection = 'column';
+        contentContainer.style.alignItems = 'flex-end';
         contentContainer.style.position = 'absolute';
         contentContainer.style.bottom = '50px';
         contentContainer.style.width = '100%';
         contentContainer.style.padding = '0 120px';
-
+    
         // título
         const titleDiv = document.createElement('div');
-        const title = document.createElement('h1');
-        title.style.color = '#fff';
-        title.style.margin = 0;
+        const title = document.createElement('h2');
+        title.classList.add('title'); // classe
         title.textContent = slide.caption;
+        title.style.paddingBottom = '25px';
+        title.style.textAlign = 'right';
         titleDiv.appendChild(title);
-
-        // "Saiba mais"
+    
+        // Botão "Saiba mais"
         const buttonDiv = document.createElement('div');
         const saibaMaisBtn = document.createElement('a');
-        saibaMaisBtn.style.backgroundColor = 'red'; // Botão vermelho
-        saibaMaisBtn.style.color = 'white'; // Texto branco
-        saibaMaisBtn.style.padding = '10px 20px'; // Padding interno
-        saibaMaisBtn.style.textDecoration = 'none'; // Remover sublinhado
-        saibaMaisBtn.style.borderRadius = '5px'; // Bordas arredondadas
-        saibaMaisBtn.style.fontWeight = 'bold'; // Negrito para destaque
+        saibaMaisBtn.style.backgroundColor = 'red';
+        saibaMaisBtn.style.color = 'white';
+        saibaMaisBtn.style.padding = '10px 30px';
+        saibaMaisBtn.style.textDecoration = 'none';
+        saibaMaisBtn.style.borderRadius = '5px';
+        saibaMaisBtn.style.fontWeight = 'bold';
         saibaMaisBtn.textContent = 'Saiba mais';
         saibaMaisBtn.href = `sobre.html?id=${slide.id}&genre=${slide.genre}`;
         buttonDiv.appendChild(saibaMaisBtn);
-
-        // Adicionando título e botão ao contêiner
+    
+        // título e botão
         contentContainer.appendChild(titleDiv);
         contentContainer.appendChild(buttonDiv);
-
-        // Adicionando o contêiner ao slide
+    
+        // slide
         slideDiv.appendChild(numberText);
+        slideDiv.appendChild(gradientOverlay);
         slideDiv.appendChild(contentContainer);
         slideshowContainer.appendChild(slideDiv);
-
+    
         // Pontinhos
         const dot = document.createElement('span');
         dot.classList.add('dot');
         dot.onclick = () => currentSlide(index + 1);
         dotsContainer.appendChild(dot);
-    });
-
+    });    
+    
     // Botões de navegação
     const prevBtn = document.createElement('a');
     prevBtn.classList.add('prev');
@@ -247,3 +258,20 @@ function searchMovies() {
     }
     return false;
 }
+
+// navbar
+let lastScrollTop = 0;
+window.addEventListener("scroll", function () {
+    const navbar = document.querySelector('.navbar');
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Se rolar para cima, adiciona a classe 'sticky-top'
+    if (scrollTop < lastScrollTop) {
+        navbar.classList.add("sticky-top");
+    } else {
+        // Se rolar para baixo, remove a classe 'sticky-top'
+        navbar.classList.remove("sticky-top");
+    }
+
+    lastScrollTop = scrollTop;
+});

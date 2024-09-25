@@ -29,7 +29,7 @@ function displaySearchResults(movies, query) {
     const resultsContainer = document.getElementById('movie-results');
     resultsContainer.innerHTML = '';
 
-    // título da busca
+    // Título da busca
     const searchTitle = document.createElement('h2');
     searchTitle.className = 'mb-5';
     searchTitle.textContent = `Exibindo ${movies.length} resultado(s) para a busca: "${query}"`;
@@ -40,22 +40,25 @@ function displaySearchResults(movies, query) {
         return;
     }
 
-    // galeria de filmes
+    // Galeria de filmes
     const row = document.createElement('div');
     row.className = 'row';
     resultsContainer.appendChild(row);
+
+    // Define a largura mínima do card
+    const MIN_CARD_WIDTH = 159;
 
     movies.forEach(movie => {
         const col = document.createElement('div');
         col.className = 'col-md-2 mb-4';
 
-        // se poster_path for null
+        // Se poster_path for null
         if (movie.poster_path) {
             // Limitando os caracteres
             const truncatedTitle = movie.title.length > 24 ? movie.title.substring(0, 24) + '...' : movie.title;
 
             col.innerHTML = `
-                <div class="card bg-dark text-white">
+                <div class="card bg-dark text-white" style="min-width: ${MIN_CARD_WIDTH}px;">
                     <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="card-img-top" alt="${movie.title}">
                     <div class="card-body">
                         <h6 class="card-title">${truncatedTitle}</h6>
@@ -66,7 +69,7 @@ function displaySearchResults(movies, query) {
         } else {
             // Exibe "sem capa"
             col.innerHTML = `
-                <div class="card bg-dark text-white">
+                <div class="card bg-dark text-white" style="min-width: ${MIN_CARD_WIDTH}px;">
                     <div class="no-poster" style="width: ${colWidth}px; height: ${colHeight}px;">
                         <p>Sem capa<br />para o filme<br />"${movie.title}"</p>
                     </div>
@@ -111,3 +114,20 @@ function searchMovies2() {
     }
     return false;
 }
+
+// navbar
+let lastScrollTop = 0;
+window.addEventListener("scroll", function () {
+    const navbar = document.querySelector('.navbar');
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Se rolar para cima, adiciona a classe 'sticky-top'
+    if (scrollTop < lastScrollTop) {
+        navbar.classList.add("sticky-top");
+    } else {
+        // Se rolar para baixo, remove a classe 'sticky-top'
+        navbar.classList.remove("sticky-top");
+    }
+
+    lastScrollTop = scrollTop;
+});

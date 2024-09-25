@@ -99,3 +99,20 @@ function searchMovies() {
     }
     return false;
 }
+
+// navbar
+let lastScrollTop = 0;
+window.addEventListener("scroll", function () {
+    const navbar = document.querySelector('.navbar');
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Se rolar para cima, adiciona a classe 'sticky-top'
+    if (scrollTop < lastScrollTop) {
+        navbar.classList.add("sticky-top");
+    } else {
+        // Se rolar para baixo, remove a classe 'sticky-top'
+        navbar.classList.remove("sticky-top");
+    }
+
+    lastScrollTop = scrollTop;
+});
